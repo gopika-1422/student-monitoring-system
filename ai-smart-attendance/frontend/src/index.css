@@ -1,0 +1,233 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #F8FAFC;
+    --surface: rgba(255, 255, 255, 0.72);
+    --surface-solid: #ffffff;
+    --border: rgba(108, 158, 255, 0.18);
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+    --primary: #6C9EFF;
+    --primary-dark: #4a7ff5;
+    --accent-purple: #BDB2FF;
+    --accent-teal: #A8DADC;
+    --accent-pink: #FFB3C6;
+    --accent-amber: #FFD166;
+    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
+    --shadow-hover: 0 16px 48px 0 rgba(31, 38, 135, 0.2);
+    --radius: 1.25rem;
+  }
+
+  .dark {
+    --bg: #0F172A;
+    --surface: rgba(15, 23, 42, 0.82);
+    --surface-solid: #1E293B;
+    --border: rgba(189, 178, 255, 0.15);
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --primary: #3B82F6;
+    --primary-dark: #2563EB;
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 16px 48px 0 rgba(0, 0, 0, 0.6);
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+}
+
+@layer components {
+  /* Glass card */
+  .glass-card {
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  .glass-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Sidebar */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200;
+    color: var(--text-secondary);
+  }
+
+  .sidebar-item:hover {
+    background: var(--surface);
+    color: var(--text-primary);
+  }
+
+  .sidebar-item.active {
+    background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+    color: white;
+    box-shadow: 0 4px 20px rgba(108, 158, 255, 0.35);
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply glass-card p-6 flex flex-col gap-2;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-present  { @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300; }
+  .badge-absent   { @apply bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300; }
+  .badge-late     { @apply bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300; }
+
+  /* Button */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white transition-all duration-200;
+    background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+    box-shadow: 0 4px 15px rgba(108, 158, 255, 0.3);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 6px 25px rgba(108, 158, 255, 0.5);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-200;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+  }
+  .btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white transition-all duration-200 bg-red-500 hover:bg-red-600;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  }
+
+  /* Input */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+  }
+  .input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 158, 255, 0.15);
+  }
+  .input::placeholder { color: var(--text-muted); }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply rounded-xl;
+    background: linear-gradient(90deg, var(--border) 25%, rgba(108,158,255,0.1) 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+  }
+
+  /* Live indicator */
+  .live-dot {
+    @apply w-2 h-2 rounded-full bg-emerald-400 animate-pulse-slow;
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Page heading */
+  .page-title {
+    @apply font-display text-2xl font-bold;
+    color: var(--text-primary);
+  }
+
+  /* Scrollable table */
+  .table-container {
+    @apply overflow-x-auto rounded-2xl;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    @apply w-full text-sm;
+    border-collapse: collapse;
+  }
+
+  thead tr {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    @apply px-4 py-3 text-left font-semibold;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  td {
+    @apply px-4 py-3;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+  }
+
+  tbody tr:hover {
+    background: var(--surface);
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* Emotion colors */
+  .emotion-happy    { color: #10b981; }
+  .emotion-neutral  { color: #6b7280; }
+  .emotion-sad      { color: #3b82f6; }
+  .emotion-angry    { color: #ef4444; }
+  .emotion-surprise { color: #f59e0b; }
+  .emotion-fear     { color: #8b5cf6; }
+  .emotion-disgust  { color: #84cc16; }
+}
+
+@layer utilities {
+  .text-primary-color  { color: var(--text-primary); }
+  .text-secondary-color { color: var(--text-secondary); }
+  .text-muted-color    { color: var(--text-muted); }
+  .bg-surface          { background: var(--surface); }
+  .border-glass        { border-color: var(--border); }
+  .bg-app              { background: var(--bg); }
+}
